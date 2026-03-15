@@ -9,33 +9,29 @@
 
 <div class="header">Kadalai Muthu</div>
 
-<div class="members-toggle" onclick="toggleMembers()">
-Members ▼
-</div>
+<div class="members-toggle" onclick="toggleMembers()">Members ▼</div>
 
 <div class="members" id="members">
-<div class="member" id="myname"></div>
+  <div class="member" id="myname"></div>
 </div>
 
 <div class="chat-area" id="chatbox"></div>
 
 <div class="bottom-bar">
-
-<div class="plus" onclick="document.getElementById('file').click()">+</div>
-
-<input type="file" id="file" style="display:none" onchange="uploadFile()">
-
-<input type="text" id="msg" placeholder="Message">
-
-<button onclick="startVoice()">🎤</button>
-
-<button onclick="voiceCall()">📞</button>
-
-<button onclick="sendMsg()">➤</button>
-
+  <div class="plus" onclick="document.getElementById('file').click()">+</div>
+  <input type="file" id="file" style="display:none" onchange="uploadFile()">
+  <input type="text" id="msg" placeholder="Message">
+  <button id="voiceBtn">🎤</button>
+  <button onclick="voiceCall()">📞</button>
+  <button onclick="sendMsg()">➤</button>
 </div>
 
 <script src="script.js"></script>
+<script>
+let btn = document.getElementById("voiceBtn");
+btn.addEventListener("mousedown", ()=>startVoice());
+btn.addEventListener("mouseup", ()=>stopVoice());
+</script>
 
 </body>
 </html>

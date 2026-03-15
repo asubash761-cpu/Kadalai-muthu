@@ -89,7 +89,7 @@ function uploadFile(){
   chat.scrollTop=chat.scrollHeight;
 }
 
-// VOICE MESSAGE
+// VOICE MESSAGE (Hold-to-Record)
 let recorder;
 let chunks=[];
 
@@ -97,32 +97,40 @@ function startVoice(){
   navigator.mediaDevices.getUserMedia({audio:true})
   .then(stream=>{
     recorder = new MediaRecorder(stream);
-    recorder.start();
     chunks=[];
-    recorder.ondataavailable=e=>chunks.push(e.data);
-    recorder.onstop=e=>{
-      let blob=new Blob(chunks,{type:"audio/webm"});
-      let url=URL.createObjectURL(blob);
-      let chat=document.getElementById("chatbox");
-      let name=localStorage.getItem("user") || "User";
-      let div=document.createElement("div");
-      div.className="msg";
-      div.innerHTML="<b>"+name+"</b><br>";
-      let audio=document.createElement("audio");
+    recorder.ondataavailable = e=>chunks.push(e.data);
+    recorder.onstop = e=>{
+      let blob = new Blob(chunks,{type:"audio/webm"});
+      let url = URL.createObjectURL(blob);
+      let chat = document.getElementById("chatbox");
+      let name = localStorage.getItem("user") || "User";
+
+      let div = document.createElement("div");
+      div.className = "msg";
+      div.innerHTML = "<b>"+name+"</b><br>";
+
+      let audio = document.createElement("audio");
       audio.controls=true;
       audio.src=url;
-      div.appendChild(audio);
-      let link=document.createElement("a");
+
+      let link = document.createElement("a");
       link.href=url;
       link.download="voice.webm";
       link.innerText="Download voice";
+
+      div.appendChild(audio);
       div.appendChild(link);
       chat.appendChild(div);
       chat.scrollTop=chat.scrollHeight;
     };
-    setTimeout(()=>recorder.stop(),4000);
+
+    recorder.start();
   })
   .catch(()=>alert("Allow microphone permission"));
+}
+
+function stopVoice(){
+  if(recorder && recorder.state === "recording") recorder.stop();
 }
 
 // MEMBERS TOGGLE
