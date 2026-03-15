@@ -22,6 +22,12 @@
   <input type="file" id="file" style="display:none" onchange="uploadFile()">
   <input type="text" id="msg" placeholder="Message">
   <button id="voiceBtn">🎤</button>
+
+<script>
+let btn = document.getElementById("voiceBtn");
+btn.addEventListener("mousedown", () => startVoice()); // Press & hold
+btn.addEventListener("mouseup", () => stopVoice());    // Release to stop
+</script>
   <button onclick="voiceCall()">📞</button>
   <button onclick="sendMsg()">➤</button>
 </div>

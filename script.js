@@ -90,54 +90,56 @@ function uploadFile(){
 }
 
 // VOICE MESSAGE (Hold-to-Record)
+// VOICE MESSAGE (Manual Hold-to-Record)
 let recorder;
-let chunks=[];
+let chunks = [];
 
-function startVoice(){
+// Start recording when user presses
+function startVoice() {
   navigator.mediaDevices.getUserMedia({audio:true})
-  .then(stream=>{
-    recorder = new MediaRecorder(stream);
-    chunks=[];
-    recorder.ondataavailable = e=>chunks.push(e.data);
-    recorder.onstop = e=>{
-      let blob = new Blob(chunks,{type:"audio/webm"});
-      let url = URL.createObjectURL(blob);
-      let chat = document.getElementById("chatbox");
-      let name = localStorage.getItem("user") || "User";
+    .then(stream => {
+      recorder = new MediaRecorder(stream);
+      chunks = [];
 
-      let div = document.createElement("div");
-      div.className = "msg";
-      div.innerHTML = "<b>"+name+"</b><br>";
+      recorder.ondataavailable = e => chunks.push(e.data);
 
-      let audio = document.createElement("audio");
-      audio.controls=true;
-      audio.src=url;
+      recorder.onstop = e => {
+        let blob = new Blob(chunks, {type:"audio/webm"});
+        let url = URL.createObjectURL(blob);
+        let chat = document.getElementById("chatbox");
+        let name = localStorage.getItem("user") || "User";
 
-      let link = document.createElement("a");
-      link.href=url;
-      link.download="voice.webm";
-      link.innerText="Download voice";
+        let div = document.createElement("div");
+        div.className = "msg";
+        div.innerHTML = "<b>"+name+"</b><br>";
 
-      div.appendChild(audio);
-      div.appendChild(link);
-      chat.appendChild(div);
-      chat.scrollTop=chat.scrollHeight;
-    };
+        let audio = document.createElement("audio");
+        audio.controls = true;
+        audio.src = url;
 
-    recorder.start();
-  })
-  .catch(()=>alert("Allow microphone permission"));
+        let link = document.createElement("a");
+        link.href = url;
+        link.download = "voice.webm";
+        link.innerText = "Download voice";
+
+        div.appendChild(audio);
+        div.appendChild(link);
+        chat.appendChild(div);
+        chat.scrollTop = chat.scrollHeight;
+      };
+
+      recorder.start();
+      console.log("Recording started...");
+    })
+    .catch(() => alert("Allow microphone permission"));
 }
 
-function stopVoice(){
-  if(recorder && recorder.state === "recording") recorder.stop();
-}
-
-// MEMBERS TOGGLE
-function toggleMembers(){
-  let m=document.getElementById("members");
-  if(m.style.display=="block") m.style.display="none";
-  else m.style.display="block";
+// Stop recording when user releases
+function stopVoice() {
+  if(recorder && recorder.state === "recording") {
+    recorder.stop();
+    console.log("Recording stopped!");
+  }
 }
 
 // VOICE CALL DEMO
