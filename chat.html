@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kadalai Muthu</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="header">
+Kadalai Muthu
+</div>
+
+<div class="members-toggle" onclick="toggleMembers()">
+Members ▼
+</div>
+
+<div class="members" id="members">
+
+<div class="member" onclick="openPrivate('Arun')">
+Arun <span class="online"></span>
+</div>
+
+<div class="member" onclick="openPrivate('Mani')">
+Mani <span class="offline"></span>
+</div>
+
+</div>
+
+<div class="chat-area" id="chatbox">
+<div class="msg">Welcome to group chat</div>
+</div>
+
+<div class="bottom-bar">
+
+<div class="plus">+</div>
+
+<input type="text" id="msg">
+
+<button>🎤</button>
+
+<button>📞</button>
+
+<button onclick="sendMsg()">➤</button>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
